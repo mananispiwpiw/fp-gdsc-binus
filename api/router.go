@@ -6,6 +6,6 @@ import (
 
 func NewRouter() {
 	//Handler thingy
-	http.HandleFunc("/users", GetUsersHandler)
-	http.HandleFunc("/user", AddUserHandler)
+	http.HandleFunc("/tasks", GetTasksHandler)
+	http.HandleFunc("/task", AddTaskHandler)
 }
