@@ -3,6 +3,7 @@ package api
 import (
 	"encoding/json"
 	"net/http"
+	"strconv"
 	"time"
 
 	"github.com/mananispiwpiw/fp-gdsc-binus/db"
@@ -52,4 +53,31 @@ func AddTaskHandler(w http.ResponseWriter, r *http.Request) {
 	// Write the response
 	w.WriteHeader(http.StatusCreated)
 	json.NewEncoder(w).Encode(task)
+}
+
+// Handler for delete a task
+func DeleteTaskHandler(w http.ResponseWriter, r *http.Request) {
+	//Check if the request method is not DELETE
+	if r.Method != "DELETE" {
+		http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
+		return
+	}
+
+	idStr := r.PathValue("id")
+	//Change to int
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		http.Error(w, "Invalid id", http.StatusBadRequest)
+	}
+
+	// Delete the task from the database
+	err = db.DeleteTask(id)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	// Write the response
+	w.WriteHeader(http.StatusNoContent)
+	json.NewEncoder(w).Encode("Task deleted successfully!")
 }
