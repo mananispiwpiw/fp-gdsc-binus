@@ -81,3 +81,38 @@ func DeleteTaskHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNoContent)
 	json.NewEncoder(w).Encode("Task deleted successfully!")
 }
+
+// Handler for updating a task
+func UpdateTaskHandler(w http.ResponseWriter, r *http.Request) {
+	//Check if the method is not PUT
+	if r.Method != "PUT" {
+		http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
+		return
+	}
+
+	idStr := r.PathValue("id")
+	//Change to int
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		http.Error(w, "Invalid id", http.StatusBadRequest)
+	}
+
+	// Parse and decode the request body
+	var task db.Task
+	err = json.NewDecoder(r.Body).Decode(&task)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	// update the task in the database
+	err = db.UpdateTask(id, task.Title, task.Description, time.Now())
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	// Write the response
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(map[string]string{"message": "Task updated successfully!"})
+}
