@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"time"
 
 	_ "github.com/lib/pq"
 )
@@ -67,4 +68,15 @@ func GetUsers() ([]byte, error) {
 	}
 
 	return jsonData, nil
+}
+
+func AddUser(id int, username string, password string, createdAt time.Time, updatedAt time.Time) error {
+	// Query the database
+	_, err := db.Exec("INSERT INTO users (id,username,password,created_at,updated_at) VALUES ($1,$2,$3,$4,$5)", id, username, password, createdAt, updatedAt)
+	if err != nil {
+		return err
+	}
+
+	fmt.Println("User added successfully!")
+	return err
 }
