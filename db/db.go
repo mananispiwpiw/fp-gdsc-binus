@@ -92,3 +92,14 @@ func DeleteTask(id int) error {
 	fmt.Println("Task deleted sucessfully!")
 	return nil
 }
+
+// UpdateTask function
+func UpdateTask(id int, title string, description string, updatedAt time.Time) error {
+	_, err := db.Exec("UPDATE tasks SET title = $1, description = $2, updated_at = $3 WHERE id = $4", title, description, updatedAt, id)
+	if err != nil {
+		return err
+	}
+
+	fmt.Println("Task updated successfully!")
+	return nil
+}
