@@ -8,16 +8,10 @@ import (
 	"time"
 
 	_ "github.com/lib/pq"
+	"github.com/mananispiwpiw/fp-gdsc-binus/model"
 )
 
-// User strucy
-type Task struct {
-	ID          int
-	Title       string
-	Description string
-	CreatedAt   string
-	UpdatedAt   string
-}
+var Task []model.Task
 
 var db *sql.DB
 
@@ -50,11 +44,11 @@ func GetTasks() ([]byte, error) {
 
 	defer rows.Close()
 
-	var tasks []Task
+	var tasks []model.Task
 
 	// Iterate over the rows
 	for rows.Next() {
-		var task Task
+		var task model.Task
 		err := rows.Scan(&task.ID, &task.Title, &task.Description, &task.CreatedAt, &task.UpdatedAt)
 		if err != nil {
 			log.Fatal(err)

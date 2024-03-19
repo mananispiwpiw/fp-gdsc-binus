@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/mananispiwpiw/fp-gdsc-binus/db"
+	"github.com/mananispiwpiw/fp-gdsc-binus/model"
 )
 
 // Handler for GetTasks
@@ -36,7 +37,7 @@ func AddTaskHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Parse and decode the request body
-	var task db.Task
+	var task model.Task
 	err := json.NewDecoder(r.Body).Decode(&task)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
@@ -98,7 +99,7 @@ func UpdateTaskHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Parse and decode the request body
-	var task db.Task
+	var task model.Task
 	err = json.NewDecoder(r.Body).Decode(&task)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
