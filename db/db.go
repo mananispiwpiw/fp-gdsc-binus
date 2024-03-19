@@ -11,12 +11,12 @@ import (
 )
 
 // User strucy
-type User struct {
-	ID        int
-	Username  string
-	Password  string
-	CreatedAt string
-	UpdatedAt string
+type Task struct {
+	ID          int
+	Title       string
+	Description string
+	CreatedAt   string
+	UpdatedAt   string
 }
 
 var db *sql.DB
@@ -40,29 +40,29 @@ func ConnectDB() {
 	fmt.Println("Successfully connected!")
 }
 
-// Users thingy
-func GetUsers() ([]byte, error) {
+// Get all tasks function
+func GetTasks() ([]byte, error) {
 	// Query the database
-	rows, err := db.Query("SELECT * FROM users")
+	rows, err := db.Query("SELECT * FROM tasks")
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	defer rows.Close()
 
-	var users []User
+	var tasks []Task
 
 	// Iterate over the rows
 	for rows.Next() {
-		var user User
-		err := rows.Scan(&user.ID, &user.Username, &user.Password, &user.CreatedAt, &user.UpdatedAt)
+		var task Task
+		err := rows.Scan(&task.ID, &task.Title, &task.Description, &task.CreatedAt, &task.UpdatedAt)
 		if err != nil {
 			log.Fatal(err)
 		}
-		users = append(users, user)
+		tasks = append(tasks, task)
 	}
 
-	jsonData, err := json.Marshal(users)
+	jsonData, err := json.Marshal(tasks)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -70,13 +70,16 @@ func GetUsers() ([]byte, error) {
 	return jsonData, nil
 }
 
-func AddUser(id int, username string, password string, createdAt time.Time, updatedAt time.Time) error {
+// AddTask function
+func AddTask(id int, title string, description string, createdAt time.Time, updatedAt time.Time) error {
 	// Query the database
-	_, err := db.Exec("INSERT INTO users (id,username,password,created_at,updated_at) VALUES ($1,$2,$3,$4,$5)", id, username, password, createdAt, updatedAt)
+	_, err := db.Exec("INSERT INTO tasks (id,title,description,created_at,updated_at) VALUES ($1,$2,$3,$4,$5)", id, title, description, createdAt, updatedAt)
 	if err != nil {
 		return err
 	}
 
-	fmt.Println("User added successfully!")
+	fmt.Println("New task added successfully!")
 	return err
 }
+
+// DeleteTask function
