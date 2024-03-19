@@ -83,3 +83,12 @@ func AddTask(id int, title string, description string, createdAt time.Time, upda
 }
 
 // DeleteTask function
+func DeleteTask(id int) error {
+	_, err := db.Exec("DELETE FROM tasks WHERE id = $1", id)
+	if err != nil {
+		return err
+	}
+
+	fmt.Println("Task deleted sucessfully!")
+	return nil
+}
