@@ -17,8 +17,8 @@ var db *sql.DB
 
 func ConnectDB() {
 	// Connect to the database
-	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=require",
-		"ceu9lmqblp8t3q.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com", 5432, "u8o4gqqc9mml7c", "pcde730fa9d14a91b62c6c1db6424d7cace30556ce67e70e614cd078de2134fdd", "d380bv5hepsdcd")
+	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
+		"localhost", 5432, "postgres", "postgres123", "fp_gdsc")
 
 	var err error
 	db, err = sql.Open("postgres", psqlInfo)
