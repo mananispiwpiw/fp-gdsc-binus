@@ -2,6 +2,33 @@
 
 This is a simple API for a task management application. It allows you to create, read, update, and delete tasks.
 
+## Getting Started
+
+1. Clone the repository
+    ```
+    git clone https://github.com/mananispiwpiw/fp-gdsc-binus.git
+    ```
+2. Navigate to the project's directory
+    ```
+    cd fp-gdsc-binus
+    ```
+3. Install the dependencies
+
+    ```golang
+    go mod tidy
+    ```
+
+4. Run the database migrations
+
+    ```
+    make updb
+    ```
+
+5. Start the server
+    ```golang
+    go run main.go
+    ```
+
 ## DB Migration
 
 1. **Install go-migrate**
